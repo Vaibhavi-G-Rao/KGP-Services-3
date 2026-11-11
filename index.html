@@ -489,6 +489,7 @@ function initFirestoreSync() {
           window.S.orders = data.orders || window.S.orders || [];
           window.S.complaints = data.complaints || window.S.complaints || [];
           window.S.closedBatches = data.closedBatches || window.S.closedBatches || {};
+          if (window.purgeDummy()) window.save(); 
           if(window.render) window.render();
         }
       } else {
@@ -522,6 +523,18 @@ async function startAuth() {
 }
 setTimeout(startAuth, 0);   // run after the rest of the app has loaded
 
+// One-time purge of the old dummy vendor (id 'v1', owner 1001)
+window.purgeDummy = function() {
+  const S = window.S;
+  const before = (S.vendors||[]).length + (S.users||[]).length + (S.items||[]).length;
+  S.vendors = (S.vendors||[]).filter(v => v.id !== 'v1' && String(v.ownerId) !== '1001');
+  S.users   = (S.users||[]).filter(u => String(u.id) !== '1001');
+  S.items   = (S.items||[]).filter(i => i.vid !== 'v1');
+  S.orders  = (S.orders||[]).filter(o => o.vid !== 'v1');
+  const after = S.vendors.length + S.users.length + S.items.length;
+  return before !== after;   // true if something was removed
+};
+if (window.purgeDummy()) window.save();
 
 // Global UI State
 window.cur = 'landing';
