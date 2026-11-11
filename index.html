@@ -522,39 +522,6 @@ async function startAuth() {
 }
 setTimeout(startAuth, 0);   // run after the rest of the app has loaded
 
-// Pre-fill seed data if empty
-if(!window.S.vendors || !window.S.vendors.length){
-  const defaultVendorUser = {
-    id: 1001,
-    role: 'vendor',
-    name: 'Vikram Sengupta (Ratri Lead)',
-    email: 'vendor@iitkgp.ac.in',
-    phone: '9832145670',
-    hall: 'Radhakrishnan (RK) Hall'
-  };
-  window.S.users.push(defaultVendorUser);
-  window.S.vendors.push({
-    id: 'v1',
-    ownerId: 1001,
-    pocName: 'Vikram Sengupta',
-    name: 'Ratri Ruchigal',
-    type: 'Product',
-    cat: 'food',
-    fulfillMode: 'Delivery',
-    pickupSpot: '',
-    desc: 'Hot fresh midnight biryani & quick hall snacks delivered across campus.',
-    win: '11:00 PM - 3:00 AM (~25-35 min delivery)',
-    upi: 'ratriruchigal@okaxis',
-    phone: '9832145670'
-  });
-  window.S.items.push(
-    {id: 1, vid: 'v1', name: 'Midnight Chicken Biryani', price: 150, stock: 25, img: ''},
-    {id: 2, vid: 'v1', name: 'Special Masala Maggi', price: 50, stock: 40, img: ''},
-    {id: 3, vid: 'v1', name: 'Aloo Paratha with Amul Butter', price: 60, stock: 30, img: ''},
-    {id: 4, vid: 'v1', name: 'Cold Chocolate Cold Coffee', price: 70, stock: 15, img: ''}
-  );
-  window.save();
-}
 
 // Global UI State
 window.cur = 'landing';
